@@ -1,4 +1,4 @@
-  #include "stm32f0xx_ll_rcc.h"
+    #include "stm32f0xx_ll_rcc.h"
   #include "stm32f0xx_ll_system.h"
   #include "stm32f0xx_ll_bus.h"
   #include "stm32f0xx_ll_gpio.h"
@@ -8,22 +8,22 @@
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_0, LL_GPIO_MODE_OUTPUT); //a
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_1, LL_GPIO_MODE_OUTPUT); //b
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_OUTPUT); //c
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_3, LL_GPIO_MODE_OUTPUT); //d
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_4, LL_GPIO_MODE_OUTPUT); //e
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_5, LL_GPIO_MODE_OUTPUT); //f
     
-    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_6, LL_GPIO_MODE_OUTPUT); //g
     
     return;
@@ -32,10 +32,14 @@
 main()
 
   {
+    rcc_config();
     gpio_config();
     LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_0);
     LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
     LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
     LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
-    return 0;
+    int t;
+    for(t = 1; t <1000000; t++){}
+    while(1){}
+    //return 0;
   }
