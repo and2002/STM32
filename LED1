@@ -1,4 +1,4 @@
-     #include "stm32f0xx_ll_rcc.h"
+  #include "stm32f0xx_ll_rcc.h"
   #include "stm32f0xx_ll_system.h"
   #include "stm32f0xx_ll_bus.h"
   #include "stm32f0xx_ll_gpio.h"
@@ -8,28 +8,55 @@
     static void gpio_config()
   {
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_0, LL_GPIO_MODE_OUTPUT); //a
-    
-    
-    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_1, LL_GPIO_MODE_OUTPUT); //b
-    
-    
-    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_OUTPUT); //c
-    
-    
-    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_3, LL_GPIO_MODE_OUTPUT); //d
-    
-    
+    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_1, LL_GPIO_MODE_OUTPUT); //b 
+    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_OUTPUT); //c   
+    LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_3, LL_GPIO_MODE_OUTPUT); //d 
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_4, LL_GPIO_MODE_OUTPUT); //e
-    
-    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_5, LL_GPIO_MODE_OUTPUT); //f
-    
-    
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_6, LL_GPIO_MODE_OUTPUT); //g
     
+    LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+    LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_3, LL_GPIO_MODE_OUTPUT); //1
+    LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_4, LL_GPIO_MODE_OUTPUT); //2 
+    LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_5, LL_GPIO_MODE_OUTPUT); //3   
+    LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_6, LL_GPIO_MODE_OUTPUT); //4 
     
   }
+ void select(int x)
+ {
+   switch (x)
+   {
+   case 0:
+      LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_3);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_6);
+      break;
+      
+   case 1:
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+      LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_6);
+      break;
+      
+   case 2:
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+      LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_6);
+      break;
+      
+   case 3:
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
+      LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_5);
+      LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_6);
+      break;
+   }
+ }
  void Ledwrite(int x)
   {
     
@@ -134,19 +161,37 @@
       LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
       LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
       break;
+      
     }
     
   }
-  
+   void clear()
+   {
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_0);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_2);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_5);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_6);
+   } 
    
     main()
 {
   
     rcc_config();
     gpio_config();
-    int e = 6;
-    Ledwrite(e);
-    
+    for (int r = 0; r < 1000000;  r++)
+    {
+      for ( int i = 0; i < 4; i++)
+      {
+        for ( int t = 0; t < 100; t++){}
+        select(i);
+        Ledwrite(i);
+        for ( int t = 0; t < 100; t++){}
+        clear();
+      }
+    }
     while(1){}
    
   }
