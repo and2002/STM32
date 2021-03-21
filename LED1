@@ -2,8 +2,10 @@
   #include "stm32f0xx_ll_system.h"
   #include "stm32f0xx_ll_bus.h"
   #include "stm32f0xx_ll_gpio.h"
-
-  void gpio_config()
+  static void rcc_config()
+{
+}
+    static void gpio_config()
   {
     LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_0, LL_GPIO_MODE_OUTPUT); //a
@@ -26,12 +28,11 @@
     
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_6, LL_GPIO_MODE_OUTPUT); //g
     
-    return;
-
+    
   }
-
-  void Ledwrite(int x)
+ void Ledwrite(int x)
   {
+    
     switch (x)
     {
       case 0:
@@ -134,12 +135,18 @@
       LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_6);
       break;
     }
+    
   }
-  main()
+  
+   
+    main()
 {
+  
     rcc_config();
     gpio_config();
-    Ledwrite(0);
-    while(1){}
+    int e = 6;
+    Ledwrite(e);
     
+    while(1){}
+   
   }
